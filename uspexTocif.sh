@@ -8,6 +8,12 @@ fi
 
 resNum=`ls results* | grep results | wc -l`
 ls results* | grep results | cut -f1 -d : > holdRes
+
+if [[ `cat holdRes | wc -l` -eq 0 ]]; then
+ resNum=1
+ echo results1 > holdRes
+fi
+
 mkdir -p all
 mkdir -p all/cif
 rm all/cif/*.cif
@@ -15,6 +21,7 @@ for res in `seq 1 $resNum`
 do
  resName=`awk "NR==${res}" holdRes`
  cd ${resName}
+ echo `pwd`
  if [[ ! -d holdStruc/ ]]; then
   #make necessary directories and clean out pre-existing directories
   mkdir -p holdStruc/
@@ -221,6 +228,6 @@ mv symms symmsFull
 createSymEnerVolPlotall keepers.txt
 mv symms symmsKeeps
 cd ../
-echo Finished without error
+echo Finished!
 
 
